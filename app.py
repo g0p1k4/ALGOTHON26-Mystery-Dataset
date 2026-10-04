@@ -84,7 +84,7 @@ with t4:
         X=X.loc[valid].replace([np.inf,-np.inf],np.nan).fillna(X.median()); y2=y.loc[valid]
         y_model=y2.astype(str) if (not pd.api.types.is_numeric_dtype(y2) or y2.nunique()<=10) else pd.qcut(y2,q=3,labels=['Low','Medium','High'],duplicates='drop')
         if y_model.nunique()>=2:
-            Xtr,Xte,ytr,yte=train_test_split(X,y_model,test_size=.25,random_state=42,stratify=y_model)
+            Xtr,Xte,ytr,yte=train_test_split(X,y_model,test_size=.25,random_state=42)
             clf=RandomForestClassifier(n_estimators=150,random_state=42); clf.fit(Xtr,ytr); pred=clf.predict(Xte)
             st.metric('Random Forest Accuracy',f'{accuracy_score(yte,pred):.1%}')
             imp=pd.DataFrame({'Feature':X.columns,'Importance':clf.feature_importances_}).sort_values('Importance',ascending=False)
