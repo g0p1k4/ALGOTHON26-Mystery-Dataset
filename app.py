@@ -98,7 +98,7 @@ with t5:
     st.info(f'💡 The cleaned dataset contains **{len(df):,} records** across **{df.shape[1]} columns**.')
     nums=df.select_dtypes(include=np.number)
     if nums.shape[1]>=2:
-        corr=nums.corr().abs(); np.fill_diagonal(corr.values,0); s=corr.stack().sort_values(ascending=False)
+        corr=nums.corr().abs(); s=corr.stack().sort_values(ascending=False)
         if len(s):
             (a,b),v=s.index[0],s.iloc[0]; st.info(f'💡 The strongest numeric relationship is **{a} ↔ {b}**, with absolute correlation **{v:.2f}**.')
         X=nums.replace([np.inf,-np.inf],np.nan).fillna(nums.median()); labels=IsolationForest(contamination=.08,random_state=42).fit_predict(X); n=int((labels==-1).sum())
